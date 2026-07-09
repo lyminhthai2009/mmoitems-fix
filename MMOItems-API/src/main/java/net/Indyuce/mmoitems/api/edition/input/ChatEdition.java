@@ -2,6 +2,7 @@ package net.Indyuce.mmoitems.api.edition.input;
 
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.edition.Edition;
+import io.lumine.mythic.lib.MythicLib;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,6 +12,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatEdition extends PlayerInputHandler implements Listener {
+	private Listener paperListener;
 
 	/**
 	 * Allows to retrieve player input using chat messages
@@ -20,12 +22,25 @@ public class ChatEdition extends PlayerInputHandler implements Listener {
 	public ChatEdition(Edition edition) {
 		super(edition);
 
-		Bukkit.getPluginManager().registerEvents(this, MMOItems.plugin);
+		if (MythicLib.plugin.getVersion().isPaper()) {
+			try {
+				Class<?> clazz = Class.forName("net.Indyuce.mmoitems.paper.PaperChatEdition");
+				paperListener = (Listener) clazz.getConstructor(ChatEdition.class).newInstance(this);
+				Bukkit.getPluginManager().registerEvents(paperListener, MMOItems.plugin);
+			} catch (Exception e) {
+				Bukkit.getPluginManager().registerEvents(this, MMOItems.plugin);
+			}
+		} else {
+			Bukkit.getPluginManager().registerEvents(this, MMOItems.plugin);
+		}
 	}
 
 	@Override
 	public void close() {
 		HandlerList.unregisterAll(this);
+		if (paperListener != null) {
+			HandlerList.unregisterAll(paperListener);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

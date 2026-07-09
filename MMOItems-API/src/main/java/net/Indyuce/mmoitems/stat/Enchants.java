@@ -505,14 +505,29 @@ public class Enchants extends ItemStat<RandomEnchantListData, EnchantListData> i
     @SuppressWarnings("deprecation")
     @Nullable
     public static Enchantment getEnchant(String key) {
+        if (key == null) return null;
         key = key.toLowerCase().replace("-", "_");
 
-        // Vanilla enchant
-        Enchantment enchant = Enchantment.getByKey(NamespacedKey.fromString(key));
-        if (enchant != null) return enchant;
+        NamespacedKey namespacedKey = key.contains(":") ? NamespacedKey.fromString(key) : NamespacedKey.minecraft(key);
+        if (namespacedKey != null) {
+            try {
+                // Try modern Bukkit registry first (1.20.5+ / 1.21)
+                Enchantment enchant = org.bukkit.Registry.ENCHANTMENT.get(namespacedKey);
+                if (enchant != null) return enchant;
+            } catch (Throwable ignored) {}
 
-        // Last try, vanilla enchant with name
-        return Enchantment.getByName(key);
+            try {
+                Enchantment enchant = Enchantment.getByKey(namespacedKey);
+                if (enchant != null) return enchant;
+            } catch (Throwable ignored) {}
+        }
+
+        // Last try, vanilla enchant with legacy name
+        try {
+            return Enchantment.getByName(key.toUpperCase());
+        } catch (Throwable ignored) {}
+
+        return null;
     }
 
     public static class EnchantUpgradeInfo implements UpgradeInfo {

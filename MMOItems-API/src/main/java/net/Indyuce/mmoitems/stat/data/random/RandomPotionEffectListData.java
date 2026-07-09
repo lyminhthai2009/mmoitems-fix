@@ -14,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import net.Indyuce.mmoitems.api.item.build.MMOItemBuilder;
 import net.Indyuce.mmoitems.stat.data.PotionEffectListData;
 import org.bukkit.potion.PotionEffectType;
+import net.Indyuce.mmoitems.util.MMOUtils;
 
 public class RandomPotionEffectListData implements RandomStatData<PotionEffectListData> {
 	private final List<RandomPotionEffectData> effects = new ArrayList<>();
@@ -42,7 +43,7 @@ public class RandomPotionEffectListData implements RandomStatData<PotionEffectLi
 						// Firstone a double, scond an integer
 						Double duration = SilentNumbers.DoubleParse(split[0]);
 						Integer amplifier = SilentNumbers.IntegerParse(split[1]);
-						PotionEffectType effect = PotionEffectType.getByName(key.toUpperCase().replace("-", "_").replace(" ", "_"));
+						PotionEffectType effect = MMOUtils.getPotionEffectType(key);
 
 						// Valid?
 						if (duration != null && amplifier != null && effect != null) { 

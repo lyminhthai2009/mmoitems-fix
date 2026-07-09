@@ -70,7 +70,7 @@ public class PotionEffects extends ItemStat<RandomPotionEffectListData, PotionEf
 		if (message.contains("|")) {
 			String[] split = message.split("\\|");
 
-			PotionEffectType effect = PotionEffectType.getByName(split[0].replace("-", "_"));
+			PotionEffectType effect = MMOUtils.getPotionEffectType(split[0]);
 			Validate.notNull(effect, split[0] + " is not a valid potion effect. All potion effects can be found here: "
 					+ "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html");
 
@@ -86,7 +86,7 @@ public class PotionEffects extends ItemStat<RandomPotionEffectListData, PotionEf
 		Validate.isTrue(split.length == 3,
 				message + " is not a valid {Effect Name} {Duration} {Amplifier}. Example: 'FAST_DIGGING 30 3' stands for Haste 3 for 30 seconds.");
 
-		PotionEffectType effect = PotionEffectType.getByName(split[0].replace("-", "_"));
+		PotionEffectType effect = MMOUtils.getPotionEffectType(split[0]);
 		Validate.notNull(effect, split[0] + " is not a valid potion effect. All potion effects can be found here: "
 				+ "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html");
 

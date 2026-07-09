@@ -55,7 +55,7 @@ public class PermanentEffects extends ItemStat<RandomPotionEffectListData, Potio
         RandomPotionEffectListData effects = new RandomPotionEffectListData();
 
         for (String effect : config.getKeys(false)) {
-            PotionEffectType type = PotionEffectType.getByName(effect.toUpperCase().replace("-", "_").replace(" ", "_"));
+            PotionEffectType type = MMOUtils.getPotionEffectType(effect);
             Validate.notNull(type, "Could not find potion effect type named '" + effect + "'");
             effects.add(new RandomPotionEffectData(type, new NumericStatFormula(config.get(effect))));
         }
@@ -89,7 +89,7 @@ public class PermanentEffects extends ItemStat<RandomPotionEffectListData, Potio
         Validate.isTrue(split.length >= 2, "Use this format: {Effect Name} {Effect Amplifier Numeric Formula}. Example: 'speed 1 0.3' "
                 + "stands for Speed 1, plus 0.3 level per item level (rounded up to lower int)");
 
-        PotionEffectType effect = PotionEffectType.getByName(split[0].replace("-", "_"));
+        PotionEffectType effect = MMOUtils.getPotionEffectType(split[0]);
         Validate.notNull(effect, split[0] + " is not a valid potion effect. All potion effects can be found here: "
                 + "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html");
 
@@ -200,7 +200,7 @@ public class PermanentEffects extends ItemStat<RandomPotionEffectListData, Potio
                 JsonElement element = new JsonParser().parse((String) oTag.getValue());
 
                 element.getAsJsonObject().entrySet().forEach(entry ->
-                        effects.add(new PotionEffectData(PotionEffectType.getByName(entry.getKey()), entry.getValue().getAsInt())));
+                        effects.add(new PotionEffectData(MMOUtils.getPotionEffectType(entry.getKey()), entry.getValue().getAsInt())));
 
                 // Thats it
                 return effects;

@@ -180,6 +180,28 @@ public class MMOUtils {
         return force;
     }
 
+    @Nullable
+    public static PotionEffectType getPotionEffectType(@Nullable String key) {
+        if (key == null) return null;
+        key = key.toLowerCase().replace("-", "_").replace(" ", "_");
+
+        NamespacedKey namespacedKey = key.contains(":") ? NamespacedKey.fromString(key) : NamespacedKey.minecraft(key);
+        if (namespacedKey != null) {
+            try {
+                // Try modern Bukkit registry first (1.20.5+ / 1.21)
+                PotionEffectType type = org.bukkit.Registry.EFFECT.get(namespacedKey);
+                if (type != null) return type;
+            } catch (Throwable ignored) {}
+        }
+
+        // Last try, legacy name
+        try {
+            return PotionEffectType.getByName(key.toUpperCase());
+        } catch (Throwable ignored) {}
+
+        return null;
+    }
+
     /**
      * Optimized Soulbound check based on the fact that the
      * compressed item Soulbound data contains only one UUID,

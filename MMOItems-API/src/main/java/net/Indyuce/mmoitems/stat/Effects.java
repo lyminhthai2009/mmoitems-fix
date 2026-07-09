@@ -74,7 +74,7 @@ public class Effects extends ItemStat<RandomPotionEffectListData, PotionEffectLi
         String[] split = message.split("\\|");
         Validate.isTrue(split.length > 1, FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Use this format: $e{Potion Effect Name}|{Duration Numeric Formula}|{Amplifier Numeric Formula}$b."));
 
-        PotionEffectType effect = PotionEffectType.getByName(split[0].replace("-", "_").replace(" ", "_").toUpperCase());
+        PotionEffectType effect = MMOUtils.getPotionEffectType(split[0]);
         Validate.notNull(effect, split[0] + FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), " is not a valid potion effect. All potion effects can be found here:$e https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html"));
 
         NumericStatFormula duration = new NumericStatFormula(split[1]);
@@ -193,7 +193,7 @@ public class Effects extends ItemStat<RandomPotionEffectListData, PotionEffectLi
                     // Extract
                     JsonObject key = e.getAsJsonObject();
 
-                    effects.add(new PotionEffectData(PotionEffectType.getByName(
+                    effects.add(new PotionEffectData(MMOUtils.getPotionEffectType(
                             key.get("Type").getAsString()),
                             key.get("Duration").getAsDouble(),
                             key.get("Level").getAsInt()));

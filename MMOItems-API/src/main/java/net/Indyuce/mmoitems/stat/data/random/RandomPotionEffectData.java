@@ -16,7 +16,7 @@ public class RandomPotionEffectData {
 	public RandomPotionEffectData(ConfigurationSection config) {
 		Validate.notNull(config, "Potion effect config cannot be null");
 
-		type = PotionEffectType.getByName(config.getName().toUpperCase().replace("-", "_").replace(" ", "_"));
+		type = MMOUtils.getPotionEffectType(config.getName());
 		Validate.notNull(type, "Could not find potion effect with name '" + config.getName() + "'");
 
 		duration = new NumericStatFormula(config.get("duration"));

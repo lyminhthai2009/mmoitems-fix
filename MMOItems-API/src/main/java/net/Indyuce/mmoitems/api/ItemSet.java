@@ -60,7 +60,7 @@ public class ItemSet {
 
                             // potion effect
                             if (key.startsWith("potion-")) {
-                                PotionEffectType potionEffectType = PotionEffectType.getByName(format.substring("potion-".length()));
+                                PotionEffectType potionEffectType = MMOUtils.getPotionEffectType(format.substring("potion-".length()));
                                 Validate.notNull(potionEffectType, String.format("Could not load potion effect type from '%s'", format));
                                 bonuses.addPotionEffect(new PotionEffect(potionEffectType, MMOUtils.getEffectDuration(potionEffectType),
                                         config.getInt(String.format("%s.%s", bonusesKey, key)) - 1, true, false));

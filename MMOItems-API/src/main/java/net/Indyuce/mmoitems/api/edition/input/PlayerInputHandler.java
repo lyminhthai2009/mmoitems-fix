@@ -35,7 +35,7 @@ public abstract class PlayerInputHandler {
      *
      * @param input Player input
      */
-    protected void registerInput(@NotNull String input) {
+    public void registerInput(@NotNull String input) {
         Validate.isTrue(Bukkit.isPrimaryThread(), "Input must be registered on primary thread");
 
         // If input is 'cancel' just cancel

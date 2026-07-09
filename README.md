@@ -5,7 +5,7 @@ Official repository for MMOItems
 - Purchase the plugin here: https://www.spigotmc.org/resources/mmoitems.39267/
 - Development builds: https://phoenixdevt.fr/devbuilds
 - Official documentation: https://gitlab.com/phoenix-dvpmt/mmoitems/-/wikis/home
-- Discord Support: https://phoenixdevt.fr/discord
+- Discord Supsport: https://phoenixdevt.fr/discord
 - Other plsugins: https://www.spigotmc.org/resources/authors/indyuce.253965/
 
 ### Using MMOItems as dependency
@@ -37,3 +37,4 @@ And then add both `MythicLib-dist` and `MMOItems-API` as dependencies:
     <scope>provided</scope>
 </dependency>
 ```
+

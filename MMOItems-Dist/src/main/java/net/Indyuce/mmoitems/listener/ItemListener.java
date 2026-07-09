@@ -133,22 +133,66 @@ public class ItemListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     private void inventoryMove(InventoryClickEvent event) {
-        if (event.getInventory().getType() != InventoryType.CRAFTING || !(event.getWhoClicked() instanceof Player))
+        if (!(event.getWhoClicked() instanceof Player))
             return;
         ItemStack newItem = modifyItem(event.getCurrentItem(), (Player) event.getWhoClicked(), ReforgeReason.CLICK);
         if (newItem != null) event.setCurrentItem(newItem);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    private void onInventoryOpen(org.bukkit.event.inventory.InventoryOpenEvent event) {
+        if (!(event.getPlayer() instanceof Player)) return;
+        Player player = (Player) event.getPlayer();
+        org.bukkit.inventory.Inventory inv = event.getInventory();
+        for (int i = 0; i < inv.getSize(); i++) {
+            ItemStack item = inv.getItem(i);
+            ItemStack newItem = modifyItem(item, player, ReforgeReason.CLICK);
+            if (newItem != null) inv.setItem(i, newItem);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSessionOpen(SessionUpdateEvent event) {
         // This event calls AFTER MMOItems resolves the player's inventory
         // for the first time when joining (or during a server reload).
-        // (Session callbacks are called before the Bukkit event is called)
-        if (event.getNewState() == ProfileSessionState.OPEN) updateInventory(event.getPlayerData().getPlayer());
+        if (event.getNewState() == ProfileSessionState.OPEN) {
+            Player player = event.getPlayerData().getPlayer();
+            if (player != null) {
+                Bukkit.getScheduler().runTaskLater(MMOItems.plugin, () -> {
+                    if (player.isOnline()) {
+                        updateInventory(player);
+                    }
+                }, 20L);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMMOItemsReload(net.Indyuce.mmoitems.api.event.MMOItemsReloadEvent event) {
+        List<Player> players = new java.util.ArrayList<>(Bukkit.getOnlinePlayers());
+        int playersPerTick = 5;
+        new org.bukkit.scheduler.BukkitRunnable() {
+            int index = 0;
+            @Override
+            public void run() {
+                if (index >= players.size()) {
+                    cancel();
+                    return;
+                }
+                for (int i = 0; i < playersPerTick && index < players.size(); i++) {
+                    Player player = players.get(index++);
+                    if (player.isOnline()) {
+                        updateInventory(player);
+                    }
+                }
+            }
+        }.runTaskTimer(MMOItems.plugin, 0L, 1L);
     }
 
     // TODO merge with InventoryResolver
     public void updateInventory(Player player) {
+        if (player == null || !player.isOnline()) return;
+
         ItemStack newItem = modifyItem(player.getEquipment().getHelmet(), player, ReforgeReason.JOIN);
         if (newItem != null) player.getEquipment().setHelmet(newItem);
         newItem = modifyItem(player.getEquipment().getChestplate(), player, ReforgeReason.JOIN);
@@ -158,8 +202,9 @@ public class ItemListener implements Listener {
         newItem = modifyItem(player.getEquipment().getBoots(), player, ReforgeReason.JOIN);
         if (newItem != null) player.getEquipment().setBoots(newItem);
 
-        for (int j = 0; j < 9; j++) {
-            newItem = modifyItem(player.getInventory().getItem(j), player, ReforgeReason.JOIN);
+        for (int j = 0; j < player.getInventory().getSize(); j++) {
+            ItemStack item = player.getInventory().getItem(j);
+            newItem = modifyItem(item, player, ReforgeReason.JOIN);
             if (newItem != null) player.getInventory().setItem(j, newItem);
         }
 

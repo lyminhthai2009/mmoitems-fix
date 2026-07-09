@@ -18,6 +18,7 @@ import net.Indyuce.mmoitems.stat.data.random.RandomStatData;
 import net.Indyuce.mmoitems.stat.type.ItemStat;
 import io.lumine.mythic.lib.util.lang3.Validate;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +32,7 @@ public class MMOItemTemplate implements ItemReference, PreloadedObject {
     private final Type type;
     private final String id;
     private final int revId;
+    private final int configHash;
 
     /**
      * Base item data
@@ -103,6 +105,7 @@ public class MMOItemTemplate implements ItemReference, PreloadedObject {
         this.type = type;
         this.id = id;
         this.revId = 1;
+        this.configHash = 0;
     }
 
     /**
@@ -118,7 +121,19 @@ public class MMOItemTemplate implements ItemReference, PreloadedObject {
 
         this.type = type;
         this.id = config.getName().toUpperCase().replace("-", "_").replace(" ", "_");
-        this.revId = config.getInt("base.revision-id", 1);
+
+        int hash = 0;
+        try {
+            YamlConfiguration tempConfig = new YamlConfiguration();
+            tempConfig.set("temp", config);
+            hash = tempConfig.saveToString().hashCode();
+        } catch (Exception e) {
+            hash = id.hashCode();
+        }
+        this.configHash = hash;
+
+        int originalRevId = config.getInt("base.revision-id", 1);
+        this.revId = net.Indyuce.mmoitems.api.util.TemplateAutoUpdater.getAndUpdateRevisionId(type.getId(), id, hash, originalRevId);
     }
 
     @NotNull
@@ -186,6 +201,10 @@ public class MMOItemTemplate implements ItemReference, PreloadedObject {
 
     public int getRevisionId() {
         return revId;
+    }
+
+    public int getConfigHash() {
+        return configHash;
     }
 
     public boolean hasOption(TemplateOption option) {

@@ -195,6 +195,7 @@ public class MMOItems extends MMOPlugin {
         MMOItemReforger.reload();
 
         Bukkit.getPluginManager().registerEvents(dropTableManager, this);
+        Bukkit.getPluginManager().registerEvents(new net.Indyuce.mmoitems.listener.AutoUpdateListener(), this);
 
         // Load MMOItemsBukkit module
         UtilityMethods.bukkitBootstrap(this, "net.Indyuce.mmoitems.MMOItemsBukkit");

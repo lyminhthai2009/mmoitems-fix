@@ -6,7 +6,7 @@ Official repository for MMOItems
 - Development builds: https://phoenixdevt.fr/devbuilds
 - Official documentation: https://gitlab.com/phoenix-dvpmt/mmoitems/-/wikis/home
 - Discord Support: https://phoenixdevt.fr/discord
-- Other plugins: https://www.spigotmc.org/resources/authors/indyuce.253965/
+- Other plsugins: https://www.spigotmc.org/resources/authors/indyuce.253965/
 
 ### Using MMOItems as dependency
 

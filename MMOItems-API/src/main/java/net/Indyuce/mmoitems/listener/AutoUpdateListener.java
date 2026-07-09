@@ -49,7 +49,10 @@ public class AutoUpdateListener implements Listener {
         String id = nbtItem.getString("MMOITEMS_ITEM_ID");
         if (id == null || id.isEmpty() || type == null || type.isEmpty()) return false;
 
-        MMOItemTemplate template = MMOItems.plugin.getTemplates().getTemplate(type, id);
+        net.Indyuce.mmoitems.api.Type itemType = MMOItems.plugin.getTypes().get(type);
+        if (itemType == null) return false;
+
+        MMOItemTemplate template = MMOItems.plugin.getTemplates().getTemplate(itemType, id);
         if (template == null) return false;
 
         int currentRevId = nbtItem.getInteger("MMOITEMS_REVISION_ID");

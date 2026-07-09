@@ -9,6 +9,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import net.Indyuce.mmoitems.MMOItems;
 
+import net.Indyuce.mmoitems.api.edition.Edition;
+import net.Indyuce.mmoitems.api.edition.StatEdition;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+
 public class PaperChatEdition implements Listener {
     private final ChatEdition parent;
 
@@ -20,7 +24,23 @@ public class PaperChatEdition implements Listener {
     public void onChat(AsyncChatEvent event) {
         if (parent.getPlayer() != null && event.getPlayer().equals(parent.getPlayer())) {
             event.setCancelled(true);
-            String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
+            
+            boolean keepColors = false;
+            Edition edition = parent.getEdition();
+            if (edition instanceof StatEdition) {
+                String statId = ((StatEdition) edition).getStat().getId();
+                if (statId.equals("NAME") || statId.equals("LORE") || statId.equals("LORE_FORMAT") || statId.equals("DISPLAY_NAME")) {
+                    keepColors = true;
+                }
+            }
+
+            String message;
+            if (keepColors) {
+                message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
+            } else {
+                message = PlainTextComponentSerializer.plainText().serialize(event.message());
+            }
+
             Bukkit.getScheduler().runTask(MMOItems.plugin, () -> parent.registerInput(message));
         }
     }

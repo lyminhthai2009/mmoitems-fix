@@ -27,6 +27,10 @@ public abstract class PlayerInputHandler {
         return edition.getInventory().getPlayer();
     }
 
+    public Edition getEdition() {
+        return edition;
+    }
+
     /**
      * Processes the player input, closes the edition process if needed and
      * opens the previously opened GUI if needed. This method is protected

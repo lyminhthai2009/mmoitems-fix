@@ -209,6 +209,7 @@ public class LoreBuilder extends Buildable<List<String>> {
 
             currentLine = MythicLib.plugin.getPlaceholderParser().parse(null, currentLine); // Apply PAPI placeholders
             currentLine = applySpecialPlaceholders(currentLine); // Apply internal placeholders
+            currentLine = MythicLib.plugin.parseColors(currentLine); // Apply color codes
 
             // [BACKWARDS COMPATIBILITY] PAPI math expansion is now recommended
             final String match = MMOUtils.substringBetween(currentLine, "MATH%", "%");

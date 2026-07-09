@@ -1,7 +1,7 @@
 package net.Indyuce.mmoitems.paper;
 
 import net.Indyuce.mmoitems.api.edition.input.ChatEdition;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -20,7 +20,7 @@ public class PaperChatEdition implements Listener {
     public void onChat(AsyncChatEvent event) {
         if (parent.getPlayer() != null && event.getPlayer().equals(parent.getPlayer())) {
             event.setCancelled(true);
-            String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+            String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
             Bukkit.getScheduler().runTask(MMOItems.plugin, () -> parent.registerInput(message));
         }
     }

@@ -189,7 +189,7 @@ public class ArrowPotionEffects extends ItemStat<RandomPotionEffectListData, Pot
 
 			// All right, parse Json
 			for (ArrowPotionEffectArrayItem entry : MythicLib.plugin.getJson().parse((String) tg.getValue(), ArrowPotionEffectArrayItem[].class))
-				effects.add(new PotionEffectData(PotionEffectType.getByName(entry.type), entry.duration, entry.level));
+				effects.add(new PotionEffectData(MMOUtils.getPotionEffectType(entry.type), entry.duration, entry.level));
 
 
 			// Return

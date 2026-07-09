@@ -157,7 +157,7 @@ public class EditableCraftingStationView extends EditableInventory {
 
             ItemStack item = upgradingRecipe.getItem().getPreview();
             ItemMeta meta = item.getItemMeta();
-            AdventureUtils.setDisplayName(meta, this.name.replace("{name}", MMOUtils.getDisplayName(item, meta)));
+            AdventureUtils.setDisplayName(meta, MythicLib.plugin.parseColors(this.name.replace("{name}", MMOUtils.getDisplayName(item, meta))));
             AdventureUtils.setLore(meta, newLore);
             MMOUtils.fixAttributeLore(meta);
             meta.getPersistentDataContainer().set(RECIPE_ID_KEY, PersistentDataType.STRING, upgradingRecipe.getId());
@@ -271,7 +271,7 @@ public class EditableCraftingStationView extends EditableInventory {
             ItemMeta meta = item.getItemMeta();
             MMOUtils.fixAttributeLore(meta);
             String rawNameFormat = amount > 1 ? nameMultiple.replace("{amount}", String.valueOf(amount)) : name; // Item name?
-            AdventureUtils.setDisplayName(meta, rawNameFormat.replace("{name}", craftingRecipe.getOutputItemStackName(item, meta)));
+            AdventureUtils.setDisplayName(meta, MythicLib.plugin.parseColors(rawNameFormat.replace("{name}", craftingRecipe.getOutputItemStackName(item, meta))));
             AdventureUtils.setLore(meta, newLore);
             meta.getPersistentDataContainer().set(RECIPE_ID_KEY, PersistentDataType.STRING, craftingRecipe.getId());
             item.setItemMeta(meta);
@@ -387,7 +387,7 @@ public class EditableCraftingStationView extends EditableInventory {
             ItemStack item = queueItem.getRecipe().getPreviewItemStack();
             item.setAmount(index + 1);
             ItemMeta meta = item.getItemMeta();
-            AdventureUtils.setDisplayName(meta, this.name.replace("{name}", MMOUtils.getDisplayName(item)));
+            AdventureUtils.setDisplayName(meta, MythicLib.plugin.parseColors(this.name.replace("{name}", MMOUtils.getDisplayName(item))));
             AdventureUtils.setLore(meta, newLore);
             MMOUtils.fixAttributeLore(meta);
             meta.getPersistentDataContainer().set(QUEUE_ITEM_ID_KEY, PersistentDataType.STRING, queueItem.getUniqueId().toString());

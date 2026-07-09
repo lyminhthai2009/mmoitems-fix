@@ -103,7 +103,7 @@ public class UnidentifiedItem {
             final var meta = unidentified.getItemMeta();
             UnidentifiedItem.this.icon.applyToItemMeta(meta);
             MMOUtils.fixAttributeLore(meta);
-            AdventureUtils.setDisplayName(meta, name);
+            AdventureUtils.setDisplayName(meta, MythicLib.plugin.parseColors(name));
             AdventureUtils.setLore(meta, lore);
             unidentified.setItemMeta(meta);
 

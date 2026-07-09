@@ -280,7 +280,7 @@ public class ItemStackBuilder {
             // Apply tooltip (centering?)
             if (tooltip != null) displayName = tooltip.bakeItemName(displayName);
 
-            AdventureUtils.setDisplayName(meta, ChatColor.WHITE + displayName);
+            AdventureUtils.setDisplayName(meta, ChatColor.WHITE + MythicLib.plugin.parseColors(displayName));
         }
 
         /*

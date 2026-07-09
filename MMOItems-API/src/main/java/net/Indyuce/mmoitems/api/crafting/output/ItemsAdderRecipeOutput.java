@@ -28,7 +28,7 @@ public class ItemsAdderRecipeOutput extends RecipeOutput {
         ItemStack stack = CustomStack.getInstance(id).getItemStack();
         if (display != null) {
             ItemMeta meta = stack.getItemMeta();
-            AdventureUtils.setDisplayName(meta, display);
+            AdventureUtils.setDisplayName(meta, io.lumine.mythic.lib.MythicLib.plugin.parseColors(display));
             stack.setItemMeta(meta);
         }
         return stack;

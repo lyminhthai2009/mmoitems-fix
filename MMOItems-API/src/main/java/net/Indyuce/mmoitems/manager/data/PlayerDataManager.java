@@ -27,4 +27,13 @@ public class PlayerDataManager extends SynchronizedDataManager<PlayerData, Defau
     public void loadEmptyPlayerData(@NotNull PlayerData playerData) {
         // Nothing to do
     }
+
+    @Override
+    protected void onQuit(org.bukkit.event.player.PlayerQuitEvent event) {
+        try {
+            super.onQuit(event);
+        } catch (NullPointerException e) {
+            // Ignore NPE when player disconnects before data is fully loaded
+        }
+    }
 }

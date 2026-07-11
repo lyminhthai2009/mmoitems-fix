@@ -63,7 +63,7 @@ public class UpgradeTemplate {
 				perStatUpgradeInfos.put(stat, ((Upgradable) stat).loadUpgradeInfo(config.get(key)));
 
 			// Somethings up, generate exception ig
-			} catch (IllegalArgumentException exception) {
+			} catch (Exception exception) {
 
 				// Log
 				ffp.log(FriendlyFeedbackCategory.ERROR, exception.getMessage());

@@ -68,7 +68,7 @@ public class ModifierNode implements PreloadedObject {
                 final ItemStat<?, ?> stat = MMOItems.plugin.getStats().get(statId);
                 Validate.notNull(stat, "Could not find stat with ID '" + statId + "'");
                 ModifierNode.this.data.put(stat, stat.whenInitialized(statSection.get(key)));
-            } catch (IllegalArgumentException exception) {
+            } catch (Exception exception) {
                 MMOItems.plugin.getLogger().log(Level.SEVERE, "An error occurred while trying to load modifier node " + getId() + ": " + exception.getMessage());
             }
     });

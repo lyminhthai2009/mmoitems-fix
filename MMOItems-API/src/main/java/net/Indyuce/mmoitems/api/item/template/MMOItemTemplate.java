@@ -83,7 +83,7 @@ public class MMOItemTemplate implements ItemReference, PreloadedObject {
                 if (data != null)
                     base.put(stat, data);
 
-            } catch (IllegalArgumentException exception) {
+            } catch (Exception exception) {
 
                 // Log
                 ffp.log(FriendlyFeedbackCategory.INFORMATION, "Could not load base item data '$f{0}$b': {1}", key, exception.getMessage());

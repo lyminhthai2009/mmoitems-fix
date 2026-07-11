@@ -122,7 +122,7 @@ public class RecipeManager implements Reloadable {
                                     (nkRef.getValue() != null ? customRecipes : booklessRecipes).add(blueprint);
 
                                     // Well something went wrong...
-                                } catch (IllegalArgumentException error) {
+                                } catch (Exception error) {
 
                                     // Empty message? Snooze that
                                     if (!error.getMessage().isEmpty()) {

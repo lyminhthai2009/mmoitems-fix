@@ -10,7 +10,7 @@ Official repository for MMOItems
 
 ### Using MMOItems as dependency
 
-Register the PhoesnissxDevelopment public repository:
+Register the PhoesnjrehfgissxDevelopment public repository:
 
 ```
 <repository>

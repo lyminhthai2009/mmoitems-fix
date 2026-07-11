@@ -238,16 +238,13 @@ public class DisplayName extends StringStat implements GemStoneStat {
 
                 // Could the player have renamed?
                 itemName = mmoitem.getNBT().getItem().getItemMeta().getDisplayName();
-                String colorless = ChatColor.stripColor(itemName);
+                final AdventureParser parser = MythicLib.plugin.getAdventureParser();
+                String strippedCurrent = parser.stripColors(cropUpgrade(itemName));
+                String strippedOriginal = parser.stripColors(MythicLib.plugin.parseColors(cropUpgrade(bakedData.bake())));
 
-                //NME//MMOItems.log("\u00a7b\u00a2\u00a2\u00a2\u00a77 Comparing: " + itemName + " | " + colorless);
-                // By player
-                if (!itemName.equals(colorless)) {
-                    //NME//MMOItems.log("\u00a7b\u00a2\u00a2\u00a2\u00a77 Not anvil");
+                if (strippedCurrent.equals(strippedOriginal)) {
                     itemName = null;
-
                 } else {
-                    //NME//MMOItems.log("\u00a7b\u00a2\u00a2\u00a2\u00a77 Replaced main with \u00a7b " + itemName);
                     bakedData.setString(itemName);
                 }
 

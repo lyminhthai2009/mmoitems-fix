@@ -64,6 +64,9 @@ public class DisplayName extends StringStat implements GemStoneStat {
         if (suffix == null || suffix.isEmpty())
             return format;
 
+        suffix = MythicLib.plugin.parseColors(suffix);
+        format = MythicLib.plugin.parseColors(format);
+
         //MMOItems.getConsole().sendMessage("Level " + upgradeLevel);
         //MMOItems.getConsole().sendMessage("Format " + format);
 
@@ -239,7 +242,7 @@ public class DisplayName extends StringStat implements GemStoneStat {
                 // Could the player have renamed?
                 itemName = mmoitem.getNBT().getItem().getItemMeta().getDisplayName();
                 final AdventureParser parser = MythicLib.plugin.getAdventureParser();
-                String strippedCurrent = parser.stripColors(cropUpgrade(itemName));
+                String strippedCurrent = parser.stripColors(MythicLib.plugin.parseColors(cropUpgrade(itemName)));
                 String strippedOriginal = parser.stripColors(MythicLib.plugin.parseColors(cropUpgrade(bakedData.bake())));
 
                 if (strippedCurrent.equals(strippedOriginal)) {
